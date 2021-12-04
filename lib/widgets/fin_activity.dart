@@ -3,6 +3,8 @@
 import 'package:fintory_app/styles/styles.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import '../data.dart';
 
@@ -14,14 +16,32 @@ class FinDetails extends StatefulWidget {
   State<FinDetails> createState() => _FinDetailsState();
 }
 
-class _FinDetailsState extends State<FinDetails> {
+class _FinDetailsState extends State<FinDetails>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation _sizeAnimation;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    _sizeAnimation =
+        SizeTween(begin: Size.fromWidth(0.0), end: Size.fromWidth(40.0))
+            .animate(_controller);
+    _controller.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only(top: 35.0, left: 35, right: 35),
+        padding: const EdgeInsets.only(left: 35, right: 35),
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            top: 35.0,
+          ),
           child: Column(
             children: [
               Row(
@@ -262,20 +282,27 @@ _spendingDetails() {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20.0),
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 10,
-                      width: double.infinity,
-                      color: Styles.greenTileColor.withOpacity(0.06),
-                    ),
-                    Container(
-                      height: 10,
-                      width: 40,
-                      color: Styles.cardColor,
-                    )
-                  ],
-                ),
+                child: Stack(children: [
+                  Container(
+                    height: 10,
+                    width: double.infinity,
+                    color: Styles.greenTileColor.withOpacity(0.06),
+                  ),
+                  PlayAnimation<double>(
+                    tween: Tween(begin: 0, end: 80),
+                    duration: Duration(seconds: 3),
+                    curve: Curves.fastOutSlowIn,
+                    builder: ((BuildContext context, child, value) {
+                      return Container(
+                        height: 10,
+                        width: value,
+                        color: Styles.cardColor,
+                        // duration: Duration(seconds: 1),
+                        // curve: Curves.fastOutSlowIn)
+                      );
+                    }),
+                  )
+                ]),
               ),
               const SizedBox(
                 height: 20.0,
@@ -292,7 +319,7 @@ _spendingDetails() {
                           fontWeight: FontWeight.w600,
                           color: Styles.cardColor.withOpacity(0.7)),
                     ),
-                    Text("10%",
+                    Text("35%",
                         style: TextStyle(
                             fontSize: 13.0,
                             fontWeight: FontWeight.w600,

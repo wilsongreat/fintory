@@ -16,6 +16,7 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   int selectedIndex = -1;
+  int selectIndex = -1;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,10 +81,10 @@ class _SideMenuState extends State<SideMenu> {
                 height: 100,
                 child: ListView.builder(
                   itemCount: navList2.length,
-                  itemBuilder: (context, int index) {
+                  itemBuilder: (BuildContext context, int index) {
                     return Column(
                       children: [
-                        _NavList(
+                        _NavListBelow(
                             navList2[index].icon,
                             navList2[index].navTitle,
                             Styles.belowNavTextColor,
@@ -158,10 +159,50 @@ class _SideMenuState extends State<SideMenu> {
   Widget _NavList(
       IconData icon, String title, Color color, Color textColor, int index) {
     bool isSelected = selectedIndex == index;
+    selectIndex == index;
     return GestureDetector(
       onTap: () {
         setState(() {
           selectedIndex = index;
+          selectIndex = index;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+        height: 40.0,
+        width: double.infinity,
+        color: isSelected ? Styles.greenTileColor : Styles.bgColor,
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: isSelected ? Styles.bgColor : color,
+              size: 20.0,
+            ),
+            const SizedBox(
+              width: 20.0,
+            ),
+            Text(
+              title,
+              style: Styles.subTitleStyle1
+                  .copyWith(color: isSelected ? Styles.bgColor : textColor),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _NavListBelow(
+      IconData icon, String title, Color color, Color textColor, int index) {
+    bool isSelected = selectedIndex == index;
+    selectIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedIndex = index;
+          selectIndex = index;
         });
       },
       child: Container(

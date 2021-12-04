@@ -14,6 +14,17 @@ class Navigators {
   });
 }
 
+class NavigatorsBelow {
+  final IconData icon;
+  final String navTitle;
+  final int id;
+  NavigatorsBelow({
+    required this.icon,
+    required this.navTitle,
+    required this.id,
+  });
+}
+
 List<Navigators> navList = [
   Navigators(icon: FluentIcons.home_12_filled, navTitle: "Home", id: 1),
   Navigators(
@@ -29,9 +40,10 @@ List<Navigators> navList = [
   Navigators(icon: FluentIcons.settings_16_filled, navTitle: "Settings", id: 6),
 ];
 
-List<Navigators> navList2 = [
-  Navigators(icon: FluentIcons.chat_help_20_filled, navTitle: "Help", id: 7),
-  Navigators(
+List<NavigatorsBelow> navList2 = [
+  NavigatorsBelow(
+      icon: FluentIcons.chat_help_20_filled, navTitle: "Help", id: 7),
+  NavigatorsBelow(
       icon: FluentIcons.arrow_step_back_16_filled, navTitle: "Logout", id: 8),
 ];
 
